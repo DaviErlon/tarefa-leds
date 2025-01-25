@@ -89,7 +89,7 @@ void clear_leds(){
 void print_leds(PIO pio, uint sm){
     uint32_t valor;
     for(uint8_t i = 0; i < LED_COUNT; i++){
-        valor = valor_rgb(matriz_led[i].B, matriz_led[i].G,matriz_led[i].R);
+        valor = valor_rgb(matriz_led[i].B, matriz_led[i].R,matriz_led[i].G);
         pio_sm_put_blocking(pio, sm, valor);
     }
 }
