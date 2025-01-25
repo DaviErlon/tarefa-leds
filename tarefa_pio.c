@@ -258,6 +258,29 @@ void EU_AMO_CHURROS(PIO pio, uint sm){
     clear_leds();
 }
 
+void smile_face(PIO pio, uint sm) {
+    sleep_ms(10);
+    // Acende os olhos
+    set_led(18, 0, 100, 0); 
+    set_led(16, 0, 100, 0); 
+    print_leds(pio, sm);
+    sleep_ms(500); 
+    // Acende o sorriso progressivamente
+    int smile[5] = {9, 1, 2, 3, 5};
+    for(int i = 0; i < 5; i++) {
+        set_led(smile[i], 0, 100, 0);
+        print_leds(pio, sm);
+        sleep_ms(100); 
+    }
+    sleep_ms(1000); 
+    // Pisca o olho direito
+    set_led(18, 0, 0, 0); 
+    print_leds(pio, sm);
+    sleep_ms(1000); 
+    set_led(18, 0, 100, 0); 
+    print_leds(pio, sm);
+}
+
 
 int main(){
 
@@ -275,7 +298,6 @@ int main(){
     uint sm = pio_claim_unused_sm(pio, true);
     ws2812b_program_init(pio, sm, offset, LED_PIN);
 
-
     while (true) {
         char key = read_keypad();
 
@@ -288,10 +310,10 @@ int main(){
                     EU_AMO_CHURROS(pio, sm);
                     break;
                 case '2':
-
+                    smile_face(pio, sm);
                     break;
                 case 'A':
-                    // fazer tecla de interrupção com uma PIO
+                // fazer tecla de interrupção com uma PIO
                     break;
                 case 'B':
                     TodosLEDsAzuis(pio, sm);
