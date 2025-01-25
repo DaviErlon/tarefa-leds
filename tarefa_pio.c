@@ -94,6 +94,127 @@ void print_leds(PIO pio, uint sm){
     }
 }
 
+// Efeito_1: Coração pulsante
+void Coracao() {
+    // Acionando (Brilho aumenta para vermelho)
+    for (int r = 0; r <= 255; r++) {
+        sleep_ms(3);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        print_leds();
+    }
+    sleep_ms(1000);
+
+    // Esmaecendo (Brilho diminui)
+    for (int r = 255; r >= 0; r--) {
+        sleep_ms(3);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        print_leds();
+    }
+    sleep_ms(500);
+
+    // Pulso com efeito laranja
+    for (int r = 0, g = 0; r <= 235; r++, g += 2) {
+        sleep_ms(3);
+        // Vermelho principal
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+
+        // Laranja nos LEDs internos
+        set_led(16, r, g, 0);    
+        set_led(18, r, g, 0); 
+        set_led(13, r, g, 0);
+        set_led(11, r, g, 0);  
+        set_led(12, r, g, 0); 
+        set_led(7, r, g, 0);
+        print_leds();
+        
+    }
+
+    // Acende o coração vermelho
+    for (int r = 0; r <= 255; r++) {
+        sleep_ms(3);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        set_led(16, r, 0, 0);    
+        set_led(18, r, 0, 0); 
+        set_led(13, r, 0, 0);
+        set_led(11, r, 0, 0);  
+        set_led(12, r, 0, 0); 
+        set_led(7, r, 0, 0);
+        print_leds();
+    }
+
+    sleep_ms(2000);
+    clear_leds();
+    print_leds();
+}
+
+/*
+  ATENÇÃO: PARTE DESTINADA AS FUNÇÕES DOS CARACTERES E OUTRAS TAGs
+==================================================================================================================================
+*/
+
+void TodosLEDsAzuis() {
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 0, 0, 255); 
+    }
+    print_leds(); 
+}
+void TodosLEDsVermelhos(){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 204, 0, 0); //  80% de 255 igual a 204
+    }
+    print_leds();
+}
+
+void TodosLEDsVerdes(){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 0, 127, 0); //  50% de 255 igual a aprox.127
+    }
+    print_leds();
+}
+
+void TodosLEDsBrancos(){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 51, 51, 51); //  50% de 255 igual a aprox.127
+    }
+    print_leds();
+}
+
 int main(){
 
     PIO pio = pio0; 
