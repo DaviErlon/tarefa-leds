@@ -78,7 +78,7 @@ void set_led(uint8_t indice, uint8_t r, uint8_t g, uint8_t b){
 
 // Função de limpar o array de leds
 void clear_leds(){
-    for(uint8_t i = 0; i > LED_COUNT; i++){
+    for(uint8_t i = 0; i < LED_COUNT; i++){
         matriz_led[i].R = 0;
         matriz_led[i].B = 0;
         matriz_led[i].G = 0;
@@ -94,13 +94,128 @@ void print_leds(PIO pio, uint sm){
     }
 }
 
+// Efeito_1: Coração pulsante
+void Coracao(PIO pio, uint sm) {
+    // Acionando (Brilho aumenta para vermelho)
+    for (int16_t r = 0; r <= 255; r++) {
+        sleep_ms(10);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        print_leds(pio, sm);
+    }
+    sleep_ms(1000);
+
+    // Esmaecendo (Brilho diminui)
+    for (int16_t r = 255; r >= 0; r--) {
+        sleep_ms(10);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        print_leds(pio, sm);
+    }
+    sleep_ms(500);
+
+    // Pulso com efeito laranja
+    for (int16_t r = 0; r <= 255; r++) {
+        sleep_ms(10);
+        // Vermelho principal
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+
+        // Lilás nos LEDs internos
+        set_led(16, r, 0, r);    
+        set_led(18, r, 0, r); 
+        set_led(13, r, 0, 0);
+        set_led(11, r, 0, r);  
+        set_led(12, r, 0, r); 
+        set_led(7, r, 0, r);
+        print_leds(pio, sm);
+        
+    }
+
+    sleep_ms(500);
+
+    // Acende o coração vermelho
+    for (int r = 0; r <= 255; r++) {
+        sleep_ms(10);
+        set_led(23, r, 0, 0);  
+        set_led(21, r, 0, 0); 
+        set_led(19, r, 0, 0);
+        set_led(17, r, 0, 0);
+        set_led(15, r, 0, 0);    
+        set_led(14, r, 0, 0); 
+        set_led(10, r, 0, 0);
+        set_led(6, r, 0, 0);  
+        set_led(8, r, 0, 0); 
+        set_led(2, r, 0, 0);
+        set_led(16, r, 0, 0);    
+        set_led(18, r, 0, 0); 
+        set_led(13, r, 0, 0);
+        set_led(11, r, 0, 0);  
+        set_led(12, r, 0, 0); 
+        set_led(7, r, 0, 0);
+        print_leds(pio, sm);
+    }
+
+    sleep_ms(2000);
+    clear_leds();
+    print_leds(pio, sm);
+}
+
+void TodosLEDsAzuis(PIO pio, uint sm) {
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 0, 0, 255); 
+    }
+    print_leds(pio, sm); 
+}
+void TodosLEDsVermelhos(PIO pio, uint sm){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 204, 0, 0); //  80% de 255 igual a 204
+    }
+    print_leds(pio, sm);
+}
+
+void TodosLEDsVerdes(PIO pio, uint sm){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 0, 127, 0); //  50% de 255 igual a aprox.127
+    }
+    print_leds(pio, sm);
+}
+
+void TodosLEDsBrancos(PIO pio, uint sm){
+    for (int led = 0; led <= 24; led++) { 
+        set_led(led, 51, 51, 51); //  50% de 255 igual a aprox.127
+    }
+    print_leds(pio, sm);
+}
+
 int main(){
 
     PIO pio = pio0; 
     bool ok;
-    uint16_t i;
-    uint32_t valor_led;
-    double r = 0.0, b = 0.0 , g = 0.0;
     ok = set_sys_clock_khz(128000, false);
 
     // Inicializações básicas
@@ -120,7 +235,7 @@ int main(){
         if (key != '\0') {
             switch (key) {
                 case '0':
-
+                    Coracao(pio, sm);
                     break;
                 case '1':
 
@@ -129,19 +244,19 @@ int main(){
 
                     break;
                 case 'A':
-
+                    // fazer tecla de interrupção com uma PIO
                     break;
                 case 'B':
-
+                    TodosLEDsAzuis(pio, sm);
                     break;
                 case 'C':
-
+                    TodosLEDsVermelhos(pio, sm);
                     break;
                 case 'D':
-  
+                    TodosLEDsVerdes(pio, sm);
                     break;
                 case '#':
-
+                    TodosLEDsBrancos(pio, sm);
                     break;
                 case '*':
  
