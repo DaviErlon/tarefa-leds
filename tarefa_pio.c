@@ -212,6 +212,53 @@ void TodosLEDsBrancos(PIO pio, uint sm){
     print_leds(pio, sm);
 }
 
+// função que liga os leds de tal forma que a frase "EU S2 CHURROS" passa deslizando para a esquerda 
+void EU_AMO_CHURROS(PIO pio, uint sm){
+
+    clear_leds(); // limpeza do array de leds para que não haja erro
+    
+    uint64_t dados[5] = {   // Analisando o funcionamento de alguns algoritmos relacionados ao display Oled 
+        0x188CD558A57,      // presente na placa BitDogLab, percebi que é muito eficiente guardar informações
+        0x5555545F51,       // em bits de inteiros do que dedicar um byte tipado para cada informação booleana.  
+        0x94CD5C5F57,       // Esses numeros em hexadecimal na verdade são uma cadeia de bits que por si só já
+        0x11555544E51,      // possuem a informação necessária para minha função, o bit[0] de cada um desses números
+        0xC954958427        // diz a coluna mais a direita se os leds devem apagar ou ligar.
+    };
+
+    for(uint8_t i = 0; i < 51; i++){ 
+
+        sleep_ms(200);
+
+        // Este for desloca todos os dados dos leds uma vez para a esquerda
+        for(uint8_t j = 0; j < 4; j++){
+            matriz_led[24 - j] = matriz_led[23 - j];
+            matriz_led[15 + j] = matriz_led[16 + j];
+            matriz_led[14 - j] = matriz_led[13 - j];
+            matriz_led[5 + j]  = matriz_led[6 + j] ;
+            matriz_led[4 - j]  = matriz_led[3 - j] ; 
+        }
+        
+        // Aqui está a magica, o código verifica o bit[0] de cada um dos hexadecimal e diz "ligado" ou "desligado"
+        (dados[0] & 1)? set_led(20, 200,40,10) : set_led (20, 0,0,0);
+        (dados[1] & 1)? set_led(19, 200,40,10) : set_led (19, 0,0,0);
+        (dados[2] & 1)? set_led(10, 200,40,10) : set_led (10, 0,0,0);
+        (dados[3] & 1)? set_led(9, 200,40,10) : set_led (9, 0,0,0);
+        (dados[4] & 1)? set_led(0, 200,40,10) : set_led (0, 0,0,0);
+
+        print_leds(pio, sm);
+
+        // por fim, os bit[1] se tornam os bit[0] da vez e retorna o ciclo 
+        dados[0] = dados[0] >> 1;
+        dados[1] = dados[1] >> 1;
+        dados[2] = dados[2] >> 1;
+        dados[3] = dados[3] >> 1;
+        dados[4] = dados[4] >> 1;
+    }
+
+    clear_leds();
+}
+
+
 int main(){
 
     PIO pio = pio0; 
@@ -238,7 +285,7 @@ int main(){
                     Coracao(pio, sm);
                     break;
                 case '1':
-
+                    EU_AMO_CHURROS(pio, sm);
                     break;
                 case '2':
 
