@@ -281,6 +281,47 @@ void smile_face(PIO pio, uint sm) {
     print_leds(pio, sm);
 }
 
+void raiwbon_sort(PIO pio, uint sm) {
+    uint8_t r_base = 10; // Base de intensidade
+    uint8_t g_base = 10;
+    uint8_t b_base = 10;
+
+    uint16_t tmp = 0;
+    uint16_t Ttmp = 0;
+
+    while (true) {
+        if(Ttmp < 3500){
+            for (uint i = 0; i <= 24; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    uint8_t b = b_base + rand() % 235;
+                    uint8_t g= g_base + rand() % 135;
+                    uint8_t r = b_base + rand() % 90;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+                else
+                {
+                    uint8_t b = b_base + rand() % 120;
+                    uint8_t g = g_base + rand() % 180;
+                    uint8_t r = b_base + rand() % 240;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+            }
+            tmp = rand() % 255;
+            Ttmp += tmp;
+            sleep_ms(tmp); // Atras o aleatório para variação do efeito
+        }else{
+            break;
+        }
+    }
+    clear_leds();
+    print_leds(pio, sm);
+}
+
+
 
 int main(){
 
@@ -311,6 +352,9 @@ int main(){
                     break;
                 case '2':
                     smile_face(pio, sm);
+                    break;
+                case '3':
+                    raiwbon_sort(pio, sm);
                     break;
                 case 'A':
                 // fazer tecla de interrupção com uma PIO
