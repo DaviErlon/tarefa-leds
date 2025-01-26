@@ -32,7 +32,7 @@ Este projeto utiliza o microcontrolador **Raspberry Pi Pico** para controlar uma
 1. Certifique-se de que você possui o hardware montado conforme o projeto:
    - Raspberry Pi Pico conectado à matriz de LEDs WS2812B.
    - Teclado matricial 4x4 devidamente conectado.
-2. Carregue o código no Raspberry Pi Pico utilizando o SDK oficial.
+2. Compile o código no Raspberry Pi Pico utilizando o arquivo CMakeLists.
 3. Alimente o Raspberry Pi Pico e observe os LEDs reagirem às teclas pressionadas no teclado.
 
 ## Demonstração
