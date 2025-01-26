@@ -283,7 +283,7 @@ void smile_face(PIO pio, uint sm) {
 
 // Função de animação Kirby com 8 frames
 void Kirby(PIO pio, uint sm) {
-    // Definindo os 7 frames da animação Kirby
+    // Definindo os 8 frames da animação Kirby
     int frames[8][5][5][3] = {
         // Frame 1 (Kirby inicial)
         {
@@ -328,32 +328,38 @@ void Kirby(PIO pio, uint sm) {
         // Frame 6 (olho piscando)
         {
             {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
-            {{255, 149, 184}, {27, 70, 201}, {255, 149, 184}, {27, 70, 201}, {255, 149, 184}},
             {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
-            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {234, 165, 188}, {255, 149, 184}, {0, 0, 0}},
             {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
         },
         // Frame 7 (olho piscando)
         {
             {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
-            {{255, 149, 184}, {27, 70, 201}, {255, 149, 184}, {27, 70, 201}, {255, 149, 184}},
+            {{255, 149, 184}, {39, 69, 201}, {255, 149, 184}, {39, 69, 201}, {255, 149, 184}},
             {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
-            {{0, 0, 0}, {255, 149, 184}, {234, 165, 188}, {255, 149, 184}, {0, 0, 0}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
+        },
+        // Frame 8 (final, com LEDs 16 e 18 piscando)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {39, 69, 201}, {255, 149, 184}, {39, 69, 201}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
             {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
         }
     };
-
-    // Cor da animação (personalize conforme necessário)
-    uint8_t r = 255, g = 149, b = 184;
 
     // Exibindo os frames da animação Kirby com transição suave
     for (int i = 0; i < 8; i++) {
         // Limpa todos os LEDs antes de desenhar o próximo frame
         clear_leds();
 
-        // Acende os LEDs do frame atual (invertendo as linhas para corrigir a direção da animação)
+        // Acende os LEDs do frame atual
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
+                // Inverte a linha para corrigir a posição
                 set_led((4 - x) * 5 + y, frames[i][x][y][0], frames[i][x][y][1], frames[i][x][y][2]);
             }
         }
@@ -365,27 +371,23 @@ void Kirby(PIO pio, uint sm) {
         sleep_ms(500);
     }
 
-    // Repetindo a animação de piscada 3 vezes
+    // Agora, mantendo os LEDs acesos e piscando apenas os LEDs 16 e 18 3 vezes
     for (int j = 0; j < 3; j++) {
-        for (int i = 6; i < 8; i++) {  // Frame 6 e 7 para a piscada
-            clear_leds();
+        // Pisca os LEDs 16 e 18
+        set_led(16, 39, 69, 201); // LED 16 aceso
+        set_led(18, 39, 69, 201); // LED 18 aceso
+        print_leds(pio, sm);
+        sleep_ms(500); // LEDs acesos por 500ms
 
-            // Acende os LEDs do frame de piscada (invertendo as linhas)
-            for (int x = 0; x < 5; x++) {
-                for (int y = 0; y < 5; y++) {
-                    set_led((4 - x) * 5 + y, frames[i][x][y][0], frames[i][x][y][1], frames[i][x][y][2]);
-                }
-            }
-
-            // Atualiza os LEDs na matriz
-            print_leds(pio, sm);
-
-            // Delay para o FPS
-            sleep_ms(1000);
-        }
+        // Apaga os LEDs 16 e 18
+        set_led(16, 0, 0, 0); // LED 16 apagado
+        set_led(18, 0, 0, 0); // LED 18 apagado
+        print_leds(pio, sm);
+        sleep_ms(500); // LEDs apagados por 500ms
     }
 
-    // A animação continua visível por 500ms
+
+   // A animação continua visível por 500ms
     sleep_ms(1000);
 
     // Apaga a animação com efeito suave
@@ -399,6 +401,7 @@ void Kirby(PIO pio, uint sm) {
     clear_leds();
     print_leds(pio, sm);
 }
+
 
 
 int main(){
