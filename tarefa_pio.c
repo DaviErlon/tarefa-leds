@@ -148,7 +148,7 @@ void Coracao(PIO pio, uint sm) {
         // Lilás nos LEDs internos
         set_led(16, r, 0, r);    
         set_led(18, r, 0, r); 
-        set_led(13, r, 0, 0);
+        set_led(13, r, 0, r);
         set_led(11, r, 0, r);  
         set_led(12, r, 0, r); 
         set_led(7, r, 0, r);
