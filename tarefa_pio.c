@@ -148,7 +148,7 @@ void Coracao(PIO pio, uint sm) {
         // Lilás nos LEDs internos
         set_led(16, r, 0, r);    
         set_led(18, r, 0, r); 
-        set_led(13, r, 0, 0);
+        set_led(13, r, 0, r);
         set_led(11, r, 0, r);  
         set_led(12, r, 0, r); 
         set_led(7, r, 0, r);
@@ -281,6 +281,43 @@ void smile_face(PIO pio, uint sm) {
     print_leds(pio, sm);
 }
 
+void raiwbon_sort(PIO pio, uint sm) {
+    uint8_t r_base = 10; // Base de intensidade
+    uint8_t g_base = 10;
+    uint8_t b_base = 10;
+
+    uint16_t tmp = 0;
+    uint16_t Ttmp = 0;
+
+    while (true) {
+        if(Ttmp < 3500){
+            for (uint i = 0; i <= 24; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    uint8_t b = b_base + rand() % 235;
+                    uint8_t g= g_base + rand() % 135;
+                    uint8_t r = b_base + rand() % 90;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+                else
+                {
+                    uint8_t b = b_base + rand() % 120;
+                    uint8_t g = g_base + rand() % 180;
+                    uint8_t r = b_base + rand() % 240;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+            }
+            tmp = rand() % 255;
+            Ttmp += tmp;
+            sleep_ms(tmp); // Atras o aleatório para variação do efeito
+        }else{
+            break;
+        }
+    }
+  
 // Função de animação Kirby com 8 frames
 void Kirby(PIO pio, uint sm) {
     // Definindo os 8 frames da animação Kirby
@@ -435,8 +472,11 @@ int main(){
                     smile_face(pio, sm);
                     break;
                 case '3':
-                    Kirby(pio, sm);
+                    raiwbon_sort(pio, sm);
                     break;
+                case '4':
+                    Kirby(pio, sm);
+                    break:
                 case 'A':
                 // fazer tecla de interrupção com uma PIO
                     break;
