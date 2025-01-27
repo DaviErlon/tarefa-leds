@@ -10,8 +10,8 @@
 #define LED_COUNT 25
 #define LED_PIN 7
 
-const uint8_t ROW_PINS[ROWS] = {8, 9, 6, 5}; // R1 R2 R3 R4
-const uint8_t COL_PINS[COLS] = {4, 3, 2, 27}; // C1 C2 C3 C4
+const uint8_t ROW_PINS[ROWS] = {10,9,8,6}; // R1 R2 R3 R4
+const uint8_t COL_PINS[COLS] = {5,4,3,2}; // C1 C2 C3 C4
 
 // Mapeamento do teclado matricial
 const char KEY_MAP[ROWS][COLS] = {
@@ -322,7 +322,7 @@ void raiwbon_sort(PIO pio, uint sm) {
 // Função de animação Kirby com 8 frames
 void Kirby(PIO pio, uint sm) {
     // Definindo os 8 frames da animação Kirby
-    int frames[8][5][5][3] = {
+    uint8_t frames[8][5][5][3] = {
         // Frame 1 (Kirby inicial)
         {
             {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
@@ -525,7 +525,8 @@ int main(){
                     contagem_regressiva(pio,sm);
                     break;
                 case 'A':
-                // fazer tecla de interrupção com uma PIO
+                    clear_leds();
+                    print_leds(pio, sm);
                     break;
                 case 'B':
                     TodosLEDsAzuis(pio, sm);
