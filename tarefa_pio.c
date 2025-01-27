@@ -317,6 +317,7 @@ void raiwbon_sort(PIO pio, uint sm) {
             break;
         }
     }
+}
   
 // Função de animação Kirby com 8 frames
 void Kirby(PIO pio, uint sm) {
@@ -519,7 +520,7 @@ int main(){
                     break;
                 case '4':
                     Kirby(pio, sm);
-                    break:
+                    break;
                 case '5':
                     contagem_regressiva(pio,sm);
                     break;
