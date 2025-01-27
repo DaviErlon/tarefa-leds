@@ -282,6 +282,51 @@ void smile_face(PIO pio, uint sm) {
 }
 
 
+void contagem_regressiva(PIO pio, uint sm){
+    //Esta função realizará a mostragem no painel de leds de uma contagem regressiva de 3 a 1 e depois apresentará
+    //a animação representando um creeper
+
+    clear_leds();
+    
+    int num_3[] = {21,22,23,18,13,12,11,8,3,2,1};
+    int num_2[] = {21,22,23,18,13,12,11,6,3,2,1};
+    int num_1[] = {16,22,17,12,7,2};
+    int creeper[] = {20,21,23,24,15,16,18,19,12,5,6,7,8,9,4,0};
+
+    for(int i=0;i<11;i++){
+        set_led(num_3[i],255,0,0);
+    }
+    print_leds(pio, sm);
+
+    sleep_ms(1000);
+    clear_leds();
+
+    for(int i=0;i<11;i++){
+        set_led(num_2[i],0,255,0);
+    }
+    print_leds(pio, sm);
+    
+    sleep_ms(1000);
+    clear_leds();
+
+    for(int i=0;i<6;i++){
+        set_led(num_1[i],0,0,255);
+    }
+
+    print_leds(pio, sm);
+    sleep_ms(1000);
+    clear_leds();
+
+    for(int i=0;i<16;i++){
+        set_led(creeper[i],255,0,0);
+    }
+    
+    print_leds(pio, sm);
+    sleep_ms(1000);
+    clear_leds();
+}
+
+
 int main(){
 
     PIO pio = pio0; 
@@ -311,6 +356,9 @@ int main(){
                     break;
                 case '2':
                     smile_face(pio, sm);
+                    break;
+                case '5':
+                    contagem_regressiva(pio,sm);
                     break;
                 case 'A':
                 // fazer tecla de interrupção com uma PIO
