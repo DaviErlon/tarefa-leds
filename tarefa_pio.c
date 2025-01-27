@@ -148,7 +148,7 @@ void Coracao(PIO pio, uint sm) {
         // Lilás nos LEDs internos
         set_led(16, r, 0, r);    
         set_led(18, r, 0, r); 
-        set_led(13, r, 0, 0);
+        set_led(13, r, 0, r);
         set_led(11, r, 0, r);  
         set_led(12, r, 0, r); 
         set_led(7, r, 0, r);
@@ -281,6 +281,163 @@ void smile_face(PIO pio, uint sm) {
     print_leds(pio, sm);
 }
 
+void raiwbon_sort(PIO pio, uint sm) {
+    uint8_t r_base = 10; // Base de intensidade
+    uint8_t g_base = 10;
+    uint8_t b_base = 10;
+
+    uint16_t tmp = 0;
+    uint16_t Ttmp = 0;
+
+    while (true) {
+        if(Ttmp < 3500){
+            for (uint i = 0; i <= 24; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    uint8_t b = b_base + rand() % 235;
+                    uint8_t g= g_base + rand() % 135;
+                    uint8_t r = b_base + rand() % 90;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+                else
+                {
+                    uint8_t b = b_base + rand() % 120;
+                    uint8_t g = g_base + rand() % 180;
+                    uint8_t r = b_base + rand() % 240;
+                    set_led(i, r, g, b);
+                    print_leds(pio, sm);
+                }
+            }
+            tmp = rand() % 255;
+            Ttmp += tmp;
+            sleep_ms(tmp); // Atras o aleatório para variação do efeito
+        }else{
+            break;
+        }
+    }
+  
+// Função de animação Kirby com 8 frames
+void Kirby(PIO pio, uint sm) {
+    // Definindo os 8 frames da animação Kirby
+    int frames[8][5][5][3] = {
+        // Frame 1 (Kirby inicial)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        },
+        // Frame 2 (Kirby lateral)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        },
+        // Frame 3 (Kirby sem perna)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        },
+        // Frame 4 (Kirby com uma perna)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+        },
+        // Frame 5 (Kirby semi completo)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
+        },
+        // Frame 6 (olho piscando)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {234, 165, 188}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
+        },
+        // Frame 7 (olho piscando)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {39, 69, 201}, {255, 149, 184}, {39, 69, 201}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
+        },
+        // Frame 8 (final, com LEDs 16 e 18 piscando)
+        {
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 149, 184}, {39, 69, 201}, {255, 149, 184}, {39, 69, 201}, {255, 149, 184}},
+            {{255, 149, 184}, {0, 0, 0}, {255, 149, 184}, {0, 0, 0}, {255, 149, 184}},
+            {{0, 0, 0}, {255, 149, 184}, {255, 149, 184}, {255, 149, 184}, {0, 0, 0}},
+            {{255, 0, 85}, {255, 0, 85}, {0, 0, 0}, {255, 0, 85}, {255, 0, 85}}
+        }
+    };
+
+    // Exibindo os frames da animação Kirby com transição suave
+    for (int i = 0; i < 8; i++) {
+        // Limpa todos os LEDs antes de desenhar o próximo frame
+        clear_leds();
+
+        // Acende os LEDs do frame atual
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                // Inverte a linha para corrigir a posição
+                set_led((4 - x) * 5 + y, frames[i][x][y][0], frames[i][x][y][1], frames[i][x][y][2]);
+            }
+        }
+
+        // Atualiza os LEDs na matriz
+        print_leds(pio, sm);
+
+        // Delay para o FPS (10 FPS = 100ms por frame)
+        sleep_ms(500);
+    }
+
+    // Agora, mantendo os LEDs acesos e piscando apenas os LEDs 16 e 18 3 vezes
+    for (int j = 0; j < 3; j++) {
+        // Pisca os LEDs 16 e 18
+        set_led(16, 39, 69, 201); // LED 16 aceso
+        set_led(18, 39, 69, 201); // LED 18 aceso
+        print_leds(pio, sm);
+        sleep_ms(500); // LEDs acesos por 500ms
+
+        // Apaga os LEDs 16 e 18
+        set_led(16, 0, 0, 0); // LED 16 apagado
+        set_led(18, 0, 0, 0); // LED 18 apagado
+        print_leds(pio, sm);
+        sleep_ms(500); // LEDs apagados por 500ms
+    }
+
+
+   // A animação continua visível por 500ms
+    sleep_ms(1000);
+
+    // Apaga a animação com efeito suave
+    for (int i = 0; i < 5; i++) {
+        clear_leds();
+        print_leds(pio, sm);
+        sleep_ms(100);  // Delay para o efeito suave de apagamento
+    }
+
+    // Apaga todos os LEDs no final
+    clear_leds();
+    print_leds(pio, sm);
+}
 
 void contagem_regressiva(PIO pio, uint sm){
     //Esta função realizará a mostragem no painel de leds de uma contagem regressiva de 3 a 1 e depois apresentará
@@ -357,6 +514,12 @@ int main(){
                 case '2':
                     smile_face(pio, sm);
                     break;
+                case '3':
+                    raiwbon_sort(pio, sm);
+                    break;
+                case '4':
+                    Kirby(pio, sm);
+                    break:
                 case '5':
                     contagem_regressiva(pio,sm);
                     break;
