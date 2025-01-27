@@ -17,16 +17,16 @@ Este projeto utiliza o microcontrolador **Raspberry Pi Pico** para controlar uma
 - **'C'**: Acende todos os LEDs na cor vermelha.
 - **'D'**: Acende todos os LEDs na cor verde.
 - **'#'**: Configura todos os LEDs para branco suave.
-- Outras teclas númericas serão utilizadas com animações.
+- Outras teclas, as númericas, serão utilizadas com animações.
 
 ## Componentes Utilizados
-- **Raspberry Pi Pico** como microcontrolador principal.
+- **Raspberry Pi Pico W** como microcontrolador principal.
 - **Matriz de LEDs WS2812B** (25 LEDs endereçáveis).
 - **Teclado matricial 4x4** para controle interativo.
 
-## Tecnologias Utilizadas
-- Linguagem: **C**
-- Ferramentas: Raspberry Pi Pico SDK, bibliotecas de controle de LEDs WS2812B e teclado matricial.
+## Tecnologias de Software Utilizadas
+- Linguagem: **C** e **Assembly**
+- Ferramentas: Kit de desenvolvimento de software SDK e simulador [Wokwi](https://wokwi.com/).
 
 ## Como Executar
 1. Certifique-se de que você possui o hardware montado conforme o projeto:
