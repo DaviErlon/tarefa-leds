@@ -36,6 +36,6 @@ Este projeto utiliza o microcontrolador **Raspberry Pi Pico** para controlar uma
 3. Alimente o Raspberry Pi Pico e observe os LEDs reagirem às teclas pressionadas no teclado.
 
 ## Demonstração
-Assista ao funcionamento do projeto neste [vídeo demonstrativo](#).
+Assista ao funcionamento do projeto neste [vídeo demonstrativo](https://drive.google.com/file/d/1FgbEsmVrS0p45zUd5166RY3K0_J8ikeR/view?usp=drivesdk).
 
 
